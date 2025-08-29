@@ -106,7 +106,7 @@ export default function AddAssetForm({ onClose }) {
             </Form.Item>
 
             <Form.Item label="Price" name="price">
-                <InputNumber style={{ width: '100%' }} onChange={handlePriceChange} />
+                <InputNumber disabled style={{ width: '100%' }} onChange={handlePriceChange} />
             </Form.Item>
 
             <Form.Item label="Date & Time" name="date">
