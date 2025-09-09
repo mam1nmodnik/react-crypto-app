@@ -10,7 +10,7 @@ const siderStyle = {
 };
 
 export default function AppSider() {
-    const { assets, crypto } = useCrypto()
+    const { assets } = useCrypto()
 
     return (
         <Layout.Sider width="25%" style={siderStyle}>
