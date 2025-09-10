@@ -15,16 +15,28 @@ export function CryptoContextProvider({ children }) {
     const [crypto, setCrypto] = useState([]);
     const [assets, setAssets] = useState([]);
 
-    function getCookieAssets() {
-        let getAssetsCookie = JSON.parse(Cookies.get('assets'))
-        console.log(getAssetsCookie)
-        if (getAssetsCookie.length == 0) {
-            Cookies.set('assets', JSON.stringify(assets))
-            console.log('куки новые')
-        } else {
-            setAssets(getAssetsCookie)
-            console.log('куки старые')
+
+
+    function getCookieAssets(result) {
+        const getAssetsCookie = JSON.parse(Cookies.get('assets'))
+        if (getAssetsCookie == undefined) {
+            return console.log('куки пусты')
         }
+        const newAssets = getAssetsCookie.map((asset) => {
+            let coin = result.find((c) => c.id === asset.id)
+            if (asset.id === coin.id)
+                return {
+                    grow: asset.price < coin.price,
+                    growPercent: percentDifference(parseInt(asset.price), coin.price),
+                    totalAmount: asset.amount * coin.price,
+                    totalProfit: asset.amount * coin.price - asset.amount * asset.price,
+                    ...asset,
+                }
+            return asset
+        })
+
+        setAssets(newAssets)
+        console.log('куки получены')
     }
 
 
@@ -32,38 +44,21 @@ export function CryptoContextProvider({ children }) {
         if (assets.length != 0) {
             const newAssets = assets.map(asset => {
                 const coin = result.find((c) => c.id === asset.id)
-                console.log(asset)
                 return {
                     grow: asset.price < coin.price,
-                    growPercent: percentDifference(asset.price, coin.price),
+                    growPercent: percentDifference(parseInt(asset.price), coin.price),
                     totalAmount: asset.amount * coin.price,
                     totalProfit: asset.amount * coin.price - asset.amount * asset.price,
                     ...asset
                 }
             })
             Cookies.set('assets', JSON.stringify(newAssets))
-            console.log(JSON.parse(Cookies.get('assets'))
+            console.log(Cookies.get('assets')
             )
             return newAssets
         }
-
         return assets
     }
-
-
-
-    useEffect(() => {
-        async function preload() {
-            setLoading(true)
-            getCookieAssets()
-            const { result } = await fakeFetchCrypto()
-            console.log(result)
-            setCrypto(result)
-            return setLoading(false)
-        }
-        preload()
-    }, [])
-
 
     function addAsset(newAsset) {
         const repitCrypto = assets.some((coin) => coin.id == newAsset.id)
@@ -76,7 +71,7 @@ export function CryptoContextProvider({ children }) {
                         ...asset,
                         amount: updateAmount,
                         grow: asset.price < coin.price,
-                        growPercent: percentDifference(asset.price, coin.price),
+                        growPercent: percentDifference(parseInt(asset.price), coin.price),
                         totalAmount: updateAmount * coin.price,
                         totalProfit: updateAmount * coin.price - updateAmount * asset.price,
                     }
@@ -86,8 +81,23 @@ export function CryptoContextProvider({ children }) {
             return setAssets(mapAssets(newAssets, crypto))
         }
         setAssets(prev => mapAssets([...prev, newAsset], crypto))
-
     }
+
+    useEffect(() => {
+        async function preload() {
+            // setLoading(true)
+            const { result } = await fakeFetchCrypto()
+            setCrypto(result)
+            getCookieAssets(result)
+            setInterval(() => {
+                getCookieAssets(result)
+            }, 18000000)
+            return setLoading(false)
+        }
+
+        preload()
+    }, [])
+
 
     return (
         <CryptoContext.Provider value={{ loading, crypto, assets, addAsset }}>
