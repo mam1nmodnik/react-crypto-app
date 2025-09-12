@@ -16,13 +16,14 @@ export function CryptoContextProvider({ children }) {
     const [assets, setAssets] = useState([]);
 
 
-
-    function getCookieAssets(result) {
-        const getAssetsCookie = JSON.parse(Cookies.get('assets'))
-        if (getAssetsCookie == undefined) {
-            return console.log('куки пусты')
+    // receiving local storage
+    function getAssetsToStorage(result) {
+        const getAssets = JSON.parse(localStorage.getItem("assets"))
+        console.log(getAssets)
+        if (getAssets == null) {
+            return console.log('the local storage files are empty')
         }
-        const newAssets = getAssetsCookie.map((asset) => {
+        const newAssets = getAssets.map((asset) => {
             let coin = result.find((c) => c.id === asset.id)
             if (asset.id === coin.id)
                 return {
@@ -34,12 +35,11 @@ export function CryptoContextProvider({ children }) {
                 }
             return asset
         })
-
         setAssets(newAssets)
-        console.log('куки получены')
+        console.log('the local storage files have been updated')
     }
 
-
+    // adding assets to the array
     function mapAssets(assets, result) {
         if (assets.length != 0) {
             const newAssets = assets.map(asset => {
@@ -52,14 +52,14 @@ export function CryptoContextProvider({ children }) {
                     ...asset
                 }
             })
-            Cookies.set('assets', JSON.stringify(newAssets))
-            console.log(Cookies.get('assets')
-            )
+            localStorage.setItem("assets",JSON.stringify(newAssets) )
+            console.log(localStorage.getItem("assets"))
             return newAssets
         }
         return assets
     }
 
+    // adding to a specific element
     function addAsset(newAsset) {
         const repitCrypto = assets.some((coin) => coin.id == newAsset.id)
         const coin = crypto.find((c) => c.id === newAsset.id)
@@ -77,7 +77,6 @@ export function CryptoContextProvider({ children }) {
                     }
                 return asset
             })
-            console.log(newAssets)
             return setAssets(mapAssets(newAssets, crypto))
         }
         setAssets(prev => mapAssets([...prev, newAsset], crypto))
@@ -88,9 +87,9 @@ export function CryptoContextProvider({ children }) {
             // setLoading(true)
             const { result } = await fakeFetchCrypto()
             setCrypto(result)
-            getCookieAssets(result)
+            getAssetsToStorage(result)
             setInterval(() => {
-                getCookieAssets(result)
+                getAssetsToStorage(result)
             }, 18000000)
             return setLoading(false)
         }
