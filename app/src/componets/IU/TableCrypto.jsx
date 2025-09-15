@@ -35,7 +35,7 @@ export default function TableCrypto() {
         return assets.map(coin => {
             if (coin.totalProfit == totalProfit) {
                 return (
-                    <span key={totalProfit}>
+                    <span key={coin.id}>
                         <Tag style={{ color: coin.grow ? '#3f8600' : '#cf1322' }} >
                             {coin.growPercent}% 
                         </Tag> 
@@ -81,7 +81,7 @@ export default function TableCrypto() {
     }, [assets])
 
     return (
-        <Table style={{width: '1400px'}}
+        <Table style={{width: '100%'}}
             columns={columns}
             dataSource={asstetsToTable}
             pagination={false}
