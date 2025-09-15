@@ -20,6 +20,7 @@ const contentStyle = {
     color: '#fff',
     backgroundColor: '#001529',
     padding: '1rem',
+
 };
 
 export default function AppContent() {
@@ -35,33 +36,44 @@ export default function AppContent() {
             .toFixed(2)
 
     return (
-        <Layout.Content style={contentStyle}>
+        <Layout.Content style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minHeight: 'calc(100vh - 60px)',
+            color: '#fff',
+            backgroundColor: '#001529',
+            padding: '1rem',
+            width: "100%"
+        }}>
+            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', maxWidth: 1000 , width: "100%" }}>
+                <Typography.Title level={3} style={{ textAlign: 'left', color: '#fff' }}>
+                    Portfolio: {resSumAsset} $
+                </Typography.Title>
+                {assets.length == 0 ?
+                    'Вы не добавили крипту в портфолио'
+                    :
+                    <>
+                        <ResponsiveContainer width="100%" height={400}>
+                            <BarChart
+                                data={assets}
+                                margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="id"></XAxis>
+                                <Tooltip
+                                    content={<CustomTooltip />}
+                                />
+                                <YAxis label={{ angle: -90, position: 'insideLeft' }} />
+                                <Bar dataKey="totalAmount" fill="#8884d8" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                        <TableCrypto />
+                    </>
+                }
+            </div>
 
-            <Typography.Title level={3} style={{ textAlign: 'left', color: '#fff' }}>
-                Portfolio: {resSumAsset} $
-            </Typography.Title>
-            {assets.length == 0 ?
-                'Вы не добавили крипту в портфолио'
-                :
-                <>
-                    <ResponsiveContainer width="100%" height={400}>
-                        <BarChart
-                            data={assets}
-                            margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="id"></XAxis>
-                            <Tooltip
-                                content={<CustomTooltip />}
-                            />
-                            <YAxis label={{ angle: -90, position: 'insideLeft' }} />
-                            <Bar dataKey="totalAmount" fill="#8884d8" />
-                        </BarChart>
-                    </ResponsiveContainer>
-
-                    <TableCrypto />
-                </>
-            }
         </Layout.Content>
     )
 }
