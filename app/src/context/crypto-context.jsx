@@ -8,6 +8,7 @@ const CryptoContext = createContext({
     assets: []
 })
 
+
 export function CryptoContextProvider({ children }) {
 
     const [loading, setLoading] = useState(false);
@@ -17,6 +18,13 @@ export function CryptoContextProvider({ children }) {
 
     // receiving local storage
     function getAssetsToStorage(result) {
+        try {
+            const raw = localStorage.getItem("assets");
+            if (!raw) return []; 
+        } catch (e) {
+            console.error("Ошибка парсинга assets:", e);
+            return []; 
+        }
         const getAssets = JSON.parse(localStorage.getItem("assets"))
         console.log(getAssets)
         if (getAssets == null) {
@@ -82,7 +90,7 @@ export function CryptoContextProvider({ children }) {
 
     useEffect(() => {
         async function preload() {
-            setLoading(true)
+            // setLoading(true)
             const { result } = await fakeFetchCrypto()
             console.log(result)
             setCrypto(result)

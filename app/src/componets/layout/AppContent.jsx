@@ -36,25 +36,32 @@ export default function AppContent() {
 
     return (
         <Layout.Content style={contentStyle}>
+
             <Typography.Title level={3} style={{ textAlign: 'left', color: '#fff' }}>
                 Portfolio: {resSumAsset} $
             </Typography.Title>
-            <ResponsiveContainer width="100%" height={400}>
-                <BarChart
-                    data={assets}
-                    margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="id"></XAxis>
-                    <Tooltip
-                        content={<CustomTooltip/>}
-                    />
-                    <YAxis label={{ angle: -90, position: 'insideLeft' }} />
-                    <Bar dataKey="totalAmount" fill="#8884d8" />
-                </BarChart>
-            </ResponsiveContainer>
+            {assets.length == 0 ?
+                'Вы не добавили крипту в портфолио'
+                :
+                <>
+                    <ResponsiveContainer width="100%" height={400}>
+                        <BarChart
+                            data={assets}
+                            margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="id"></XAxis>
+                            <Tooltip
+                                content={<CustomTooltip />}
+                            />
+                            <YAxis label={{ angle: -90, position: 'insideLeft' }} />
+                            <Bar dataKey="totalAmount" fill="#8884d8" />
+                        </BarChart>
+                    </ResponsiveContainer>
 
-            <TableCrypto />
+                    <TableCrypto />
+                </>
+            }
         </Layout.Content>
     )
 }
