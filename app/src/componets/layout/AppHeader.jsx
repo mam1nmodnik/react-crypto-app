@@ -35,6 +35,16 @@ export default function AppHeader() {
         setCoin(crypto.find(c => c.id === value))
         setModal(true)
     }
+
+    const handleDropdownVisibleChange = (visible) => {
+        if (visible) {
+            document.body.style.overflow = "hidden";
+            document.body.style.touchAction = "none"; 
+        } else {
+            document.body.style.overflow = "";
+            document.body.style.touchAction = "";
+        }
+    };
     return (
         <Layout.Header style={headerStyle}>
             <Select
@@ -43,6 +53,7 @@ export default function AppHeader() {
                 }}
                 onSelect={hendleSelect}
                 onClick={() => setSelect((prev) => !prev)}
+                onOpenChange={handleDropdownVisibleChange}
                 open={select}
                 value='press / to open'
                 options={crypto.map(coin => ({
@@ -76,7 +87,7 @@ export default function AppHeader() {
                 open={drawer}
                 destroyOnHidden
             >
-                <AddAssetForm onClose={() => setDrawer(false)}/>
+                <AddAssetForm onClose={() => setDrawer(false)} />
             </Drawer>
         </Layout.Header>
     )

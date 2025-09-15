@@ -15,10 +15,20 @@ const validateMessages = {
 
 export default function AddAssetForm({ onClose }) {
     const [form] = Form.useForm()
-    const { crypto , addAsset} = useCrypto()
+    const { crypto, addAsset } = useCrypto()
     const [coin, setCoin] = useState(null)
     const [submitted, setSubmitted] = useState(false)
     const assetRef = useRef()
+
+    const handleDropdownVisibleChange = (visible) => {
+        if (visible) {
+            document.body.style.overflow = "hidden";
+            document.body.style.touchAction = "none"; 
+        } else {
+            document.body.style.overflow = "";
+            document.body.style.touchAction = "";
+        }
+    };
 
     if (!coin) {
         return (
@@ -27,6 +37,7 @@ export default function AddAssetForm({ onClose }) {
                     width: '100%'
                 }}
                 onSelect={(v) => setCoin(crypto.find(c => c.id == v))}
+                onOpenChange={handleDropdownVisibleChange}
                 placeholder="Select coin"
                 options={crypto.map(coin => ({
                     label: coin.name,
