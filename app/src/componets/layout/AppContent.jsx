@@ -52,7 +52,7 @@ export default function AppContent() {
                     Portfolio: {resSumAsset} $
                 </Typography.Title>
                 {assets.length == 0 ?
-                    'Вы не добавили крипту в портфолио'
+                    <h1>Добавьте криптовалюту в портфолио</h1>
                     :
                     <>
                         <ResponsiveContainer width="100%" height={400}>
