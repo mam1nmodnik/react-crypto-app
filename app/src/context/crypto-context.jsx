@@ -90,7 +90,7 @@ export function CryptoContextProvider({ children }) {
 
     useEffect(() => {
         async function preload() {
-            // setLoading(true)
+            setLoading(true)
             const { result } = await fakeFetchCrypto()
             console.log(result)
             setCrypto(result)
