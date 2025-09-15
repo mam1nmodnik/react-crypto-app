@@ -120,7 +120,7 @@ export default function AddAssetForm({ onClose }) {
                 <InputNumber disabled style={{ width: '100%' }} onChange={handlePriceChange} />
             </Form.Item>
 
-            <Form.Item label="Date & Time" name="date">
+            <Form.Item label="Date" name="date">
                 <DatePicker showDate readOnly/>
             </Form.Item>
 
