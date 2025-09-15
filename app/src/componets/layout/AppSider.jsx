@@ -1,5 +1,5 @@
 import { Layout, Card, Statistic, List, Typography, Spin, Tag } from 'antd';
-import { ArrowDownOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { useCrypto } from '../../context/crypto-context';
 
 const siderStyle = {

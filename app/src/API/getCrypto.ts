@@ -1,5 +1,5 @@
 
-    const getCryptoItems = async ()=> {
+    const getCryptoItems = async () => {
         const url = 'https://openapiv1.coinstats.app/coins';
         const options = {
             method: 'GET',
@@ -8,7 +8,7 @@
         };
         try {
             const response = await fetch(url, options);
-            const data = await response.json();
+            const data = await response.json();   
             return data
         } catch (error) {
             console.error(error);
@@ -22,5 +22,3 @@ export async function fakeFetchCrypto(){
         }, 1)
     })
 }
-
-
