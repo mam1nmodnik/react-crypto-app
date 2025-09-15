@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { fakeFetchCrypto } from '../API/getCrypto';
+import { fakeFetchCrypto, } from '../API/getCrypto';
 import { percentDifference } from '../utils'
-import Cookies from 'js-cookie';
 
 const CryptoContext = createContext({
     loading: true,
@@ -52,8 +51,7 @@ export function CryptoContextProvider({ children }) {
                     ...asset
                 }
             })
-            localStorage.setItem("assets",JSON.stringify(newAssets) )
-            console.log(localStorage.getItem("assets"))
+            localStorage.setItem("assets", JSON.stringify(newAssets))
             return newAssets
         }
         return assets
@@ -84,13 +82,15 @@ export function CryptoContextProvider({ children }) {
 
     useEffect(() => {
         async function preload() {
-            // setLoading(true)
+            setLoading(true)
             const { result } = await fakeFetchCrypto()
+            console.log(result)
             setCrypto(result)
             getAssetsToStorage(result)
-            setInterval(() => {
-                getAssetsToStorage(result)
-            }, 18000000)
+
+            // setInterval(() => {
+            //     getAssetsToStorage(result)
+            // }, 18000000)
             return setLoading(false)
         }
 
