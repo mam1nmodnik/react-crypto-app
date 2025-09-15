@@ -121,7 +121,7 @@ export default function AddAssetForm({ onClose }) {
             </Form.Item>
 
             <Form.Item label="Date" name="date">
-                <DatePicker showDate readOnly/>
+                <DatePicker showDate inputReadOnly/>
             </Form.Item>
 
             <Form.Item label="Total" name="total">
