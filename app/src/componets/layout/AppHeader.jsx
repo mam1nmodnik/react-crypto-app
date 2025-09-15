@@ -18,18 +18,9 @@ export default function AppHeader() {
     const [select, setSelect] = useState(false)
     const [modal, setModal] = useState(false)
     const [drawer, setDrawer] = useState(false)
+    const [open, setOpen] = useState(false);
 
     const { crypto } = useCrypto()
-
-    useEffect(() => {
-        const keypress = (event) => {
-            if (event.key === '/') {
-                setSelect((prev) => !prev);
-            }
-        };
-        document.addEventListener('keydown', keypress);
-        return () => document.removeEventListener('keydown', keypress);
-    }, [])
 
     function hendleSelect(value) {
         setCoin(crypto.find(c => c.id === value))
@@ -39,7 +30,7 @@ export default function AppHeader() {
     const handleDropdownVisibleChange = (visible) => {
         if (visible) {
             document.body.style.overflow = "hidden";
-            document.body.style.touchAction = "none"; 
+            document.body.style.touchAction = "none";
         } else {
             document.body.style.overflow = "";
             document.body.style.touchAction = "";
@@ -52,10 +43,9 @@ export default function AppHeader() {
                     width: 250
                 }}
                 onSelect={hendleSelect}
-                onClick={() => setSelect((prev) => !prev)}
                 onOpenChange={handleDropdownVisibleChange}
-                open={select}
-                value='press / to open'
+                onBlur={() => setOpen(false)}
+                value='information about the crypt'
                 options={crypto.map(coin => ({
                     label: coin.name,
                     value: coin.id,
