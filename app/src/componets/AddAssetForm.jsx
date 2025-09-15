@@ -102,7 +102,7 @@ export default function AddAssetForm({ onClose }) {
                 name="amount"
                 rules={[{ required: true, type: 'number', min: 0 }]}
             >
-                <InputNumber style={{ width: '100%' }} placeholder="Enter coin amount" onChange={handleAmountChange} />
+                <InputNumber inputMode="numeric" style={{ width: '100%' }} className="text-base sm:text-lg px-3 py-2 " placeholder="Enter coin amount" onChange={handleAmountChange} />
             </Form.Item>
 
             <Form.Item label="Price" name="price">

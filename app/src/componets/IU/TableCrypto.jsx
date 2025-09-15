@@ -54,25 +54,29 @@ export default function TableCrypto() {
             dataIndex: 'name',
             showSorterTooltip: { target: 'full-header' },
             render: text => <a>{text}</a>,
+            width: 0
         },
         {
             title: 'Amount',
             dataIndex: 'amount',
             defaultSortOrder: 'descend',
             sorter: (a, b) => a.amount - b.amount,
+            width: 0
         },
         {
             title: 'Total Amount',
             dataIndex: 'totalAmount',
             defaultSortOrder: 'descend',
             sorter: (a, b) => a.totalAmount - b.totalAmount,
-            render: totalAmount => (totalAmountRender(totalAmount))
+            render: totalAmount => (totalAmountRender(totalAmount)),
+            width: 0
         },
         {
             title: 'Total Profit',
             dataIndex: 'totalProfit',
             sorter: (a, b) => a.totalProfit - b.totalProfit,
-            render: totalProfit => (totalProfitRender(totalProfit))
+            render: totalProfit => (totalProfitRender(totalProfit)),
+            width: 0
         },
     ]
 
@@ -85,6 +89,7 @@ export default function TableCrypto() {
             columns={columns}
             dataSource={asstetsToTable}
             pagination={false}
+            scroll={{ x: 'max-content' }}
         />
     )
 }
