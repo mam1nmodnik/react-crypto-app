@@ -3,24 +3,37 @@ import { useCrypto } from '../../context/crypto-context';
 import { useEffect, useState } from 'react';
 import CoinInfoModal from '../CoinInfoModal';
 import AddAssetForm from '../AddAssetForm';
-const headerStyle = {
-    width: '100%',
-    textAlign: 'center',
-    height: 60,
-    padding: '1rem',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-};
+
 
 export default function AppHeader() {
     const [coin, setCoin] = useState(null)
-    const [select, setSelect] = useState(false)
     const [modal, setModal] = useState(false)
     const [drawer, setDrawer] = useState(false)
     const [open, setOpen] = useState(false);
 
-    const { crypto } = useCrypto()
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const { crypto, setTheme, theme } = useCrypto()
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize)
+    }, []);
+
+
+
+    const headerStyle = {
+        width: "100%",
+        textAlign: "center",
+        height: isMobile ? "auto" : 60,
+        padding: isMobile ? "0.5rem" : "1rem",
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        backgroundColor: theme ? "#001529" : "white",
+        gap: isMobile ? "0.5rem" : 0,
+    };
 
     function hendleSelect(value) {
         setCoin(crypto.find(c => c.id === value))
@@ -36,8 +49,14 @@ export default function AppHeader() {
             document.body.style.touchAction = "";
         }
     };
+    function setUserTheme() {
+        setTheme(!theme)
+        localStorage.setItem("theme", JSON.stringify(theme))
+    }
+    
     return (
         <Layout.Header style={headerStyle}>
+
             <Select
                 style={{
                     width: 250
@@ -62,6 +81,9 @@ export default function AppHeader() {
                     </Space>
                 )}
             />
+            <Button variant="solid" onClick={() => setUserTheme()}>
+                change theme
+            </Button>
             <Button type="primary" onClick={() => setDrawer(true)}>Add asset</Button>
             <Modal
                 open={modal}

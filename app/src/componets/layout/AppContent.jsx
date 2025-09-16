@@ -10,7 +10,7 @@ import {
     Tooltip,
     ResponsiveContainer
 } from 'recharts';
-import TableCrypto from '../IU/TableCrypto';
+import TableCrypto from '../../componets/TableCrypto';
 import CustomTooltip from '../IU/CustomTootlip';
 
 const contentStyle = {
@@ -24,7 +24,7 @@ const contentStyle = {
 };
 
 export default function AppContent() {
-    const { assets, crypto } = useCrypto()
+    const { assets, crypto , theme} = useCrypto()
     const cryptoPriceMap = crypto.reduce((acc, v) => {
         acc[v.id] = v.price
         return acc
@@ -42,13 +42,13 @@ export default function AppContent() {
             flexDirection: 'column',
             alignItems: 'center',
             minHeight: 'calc(100vh - 60px)',
-            color: '#fff',
-            backgroundColor: '#001529',
+            color: theme ? 'white' : 'black',
+            backgroundColor: theme ? '#001529' : 'white',
             padding: '1rem',
             width: "100%"
         }}>
             <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', maxWidth: 1000 , width: "100%" }}>
-                <Typography.Title level={3} style={{ textAlign: 'left', color: '#fff' }}>
+                <Typography.Title level={3} style={{ textAlign: 'left', color: theme ? 'white' : 'black'}}>
                     Portfolio: {resSumAsset} $
                 </Typography.Title>
                 {assets.length == 0 ?

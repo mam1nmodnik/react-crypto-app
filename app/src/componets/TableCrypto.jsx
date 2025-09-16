@@ -1,6 +1,6 @@
 import { Table, Tag } from 'antd';
 import { useEffect, useState } from 'react';
-import { useCrypto } from '../../context/crypto-context'
+import { useCrypto } from '../context/crypto-context'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 
 
@@ -37,8 +37,8 @@ export default function TableCrypto() {
                 return (
                     <span key={coin.id}>
                         <Tag style={{ color: coin.grow ? '#3f8600' : '#cf1322' }} >
-                            {coin.growPercent}% 
-                        </Tag> 
+                            {coin.growPercent}%
+                        </Tag>
                         <Tag style={{ color: coin.grow ? '#3f8600' : '#cf1322' }} >
                             {totalProfit.toFixed(2)} $
                         </Tag>
@@ -83,9 +83,13 @@ export default function TableCrypto() {
     useEffect(() => {
         setAssetsToTable(dataTable())
     }, [assets])
-
+    const tableProps = {
+        title: () => 'My assets',
+        size: 'small'
+    };
     return (
-        <Table style={{width: '100%'}}
+        <Table style={{ width: '100%' }}
+            {...tableProps}
             columns={columns}
             dataSource={asstetsToTable}
             pagination={false}

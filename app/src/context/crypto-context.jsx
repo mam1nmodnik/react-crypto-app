@@ -14,16 +14,41 @@ export function CryptoContextProvider({ children }) {
     const [loading, setLoading] = useState(false);
     const [crypto, setCrypto] = useState([]);
     const [assets, setAssets] = useState([]);
+    const [theme, setTheme] = useState(false)
 
+    function getThemeUser() {
+        try {
+            const raw = localStorage.getItem("theme");
+            // если ещё ничего нет в localStorage → записываем false
+            if (!raw) {
+                localStorage.setItem("theme", JSON.stringify(true));
+                return true;
+            }
+
+            // парсим значение
+            const theme = JSON.parse(raw);
+
+            if (typeof theme !== "boolean") {
+                localStorage.setItem("theme", JSON.stringify(true));
+                return true;
+            }
+            console.log(theme)
+            return setTheme(!theme); // вернёт true или false
+        } catch (e) {
+            console.error("Ошибка парсинга theme:", e);
+            localStorage.setItem("theme", JSON.stringify(true));
+            return false;
+        }
+    }
 
     // receiving local storage
     function getAssetsToStorage(result) {
         try {
             const raw = localStorage.getItem("assets");
-            if (!raw) return []; 
+            if (!raw) return [];
         } catch (e) {
             console.error("Ошибка парсинга assets:", e);
-            return []; 
+            return [];
         }
         const getAssets = JSON.parse(localStorage.getItem("assets"))
         console.log(getAssets)
@@ -95,19 +120,18 @@ export function CryptoContextProvider({ children }) {
             console.log(result)
             setCrypto(result)
             getAssetsToStorage(result)
-
+            getThemeUser()
             // setInterval(() => {
             //     getAssetsToStorage(result)
             // }, 18000000)
             return setLoading(false)
         }
-
         preload()
     }, [])
 
 
     return (
-        <CryptoContext.Provider value={{ loading, crypto, assets, addAsset }}>
+        <CryptoContext.Provider value={{ loading, crypto, assets, addAsset, theme, setTheme }}>
             {children}
         </CryptoContext.Provider>
     )
