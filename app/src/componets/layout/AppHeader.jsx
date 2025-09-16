@@ -1,26 +1,19 @@
-import { Layout, Select, Space, Button, Modal, Drawer } from 'antd';
+import { Layout, Button, Drawer } from 'antd';
+import NavMenu from '../NavMenu';
 import { useCrypto } from '../../context/crypto-context';
 import { useEffect, useState } from 'react';
-import CoinInfoModal from '../CoinInfoModal';
-import AddAssetForm from '../AddAssetForm';
-
 
 export default function AppHeader() {
-    const [coin, setCoin] = useState(null)
-    const [modal, setModal] = useState(false)
-    const [drawer, setDrawer] = useState(false)
-    const [open, setOpen] = useState(false);
 
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    const { crypto, setTheme, theme } = useCrypto()
+    const [mobileMenu, setMobileMenu] = useState(false)
+    const { theme } = useCrypto()
+
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768);
         window.addEventListener("resize", handleResize);
-
         return () => window.removeEventListener("resize", handleResize)
     }, []);
-
-
 
     const headerStyle = {
         width: "100%",
@@ -28,78 +21,36 @@ export default function AppHeader() {
         height: isMobile ? "auto" : 60,
         padding: isMobile ? "0.5rem" : "1rem",
         display: "flex",
-        flexDirection: isMobile ? "column" : "row",
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: theme ? "#001529" : "white",
         gap: isMobile ? "0.5rem" : 0,
     };
-
-    function hendleSelect(value) {
-        setCoin(crypto.find(c => c.id === value))
-        setModal(true)
-    }
-
-    const handleDropdownVisibleChange = (visible) => {
-        if (visible) {
-            document.body.style.overflow = "hidden";
-            document.body.style.touchAction = "none";
-        } else {
-            document.body.style.overflow = "";
-            document.body.style.touchAction = "";
-        }
-    };
-    function setUserTheme() {
-        setTheme(!theme)
-        localStorage.setItem("theme", JSON.stringify(theme))
-    }
-    
     return (
-        <Layout.Header style={headerStyle}>
+        <Layout.Header
+            style={headerStyle}
+        >
+            <div className={`w-full hidden md:flex gap-2 justify-start items-center p-4 ${theme ? "bg-[#001529]" : "bg-white"} md:flex-row`}>
+                <NavMenu />
+            </div>
+            <div className={`md:hidden `}>
+                <Button onClick={() => setMobileMenu(true)}>
+                    Open Menu
+                </Button>
+            </div>
 
-            <Select
-                style={{
-                    width: 250
-                }}
-                onSelect={hendleSelect}
-                onOpenChange={handleDropdownVisibleChange}
-                onBlur={() => setOpen(false)}
-                value='information about the crypt'
-                options={crypto.map(coin => ({
-                    label: coin.name,
-                    value: coin.id,
-                    icon: coin.icon
-                }))}
-                optionRender={(option) => (
-                    <Space>
-                        <img
-                            style={{ width: 20 }}
-                            src={option.data.icon}
-                            alt={option.data.label}
-                        />
-                        {option.data.label}
-                    </Space>
-                )}
-            />
-            <Button variant="solid" onClick={() => setUserTheme()}>
-                change theme
-            </Button>
-            <Button type="primary" onClick={() => setDrawer(true)}>Add asset</Button>
-            <Modal
-                open={modal}
-                onCancel={() => setModal(false)}
-                footer={null}
-            >
-                <CoinInfoModal coin={coin} />
-            </Modal>
             <Drawer
+                
+                className={`${theme} ? "bg-[#001529]" : "bg-white"`}
                 width={600}
-                title="Add Asset"
-                onClose={() => setDrawer(false)}
-                open={drawer}
+                title="Menu"
+                onClose={() => setMobileMenu(false)}
+                open={mobileMenu}
                 destroyOnHidden
             >
-                <AddAssetForm onClose={() => setDrawer(false)} />
+                <div className={`w-full  flex gap-5 justify-start items-center p-4 flex-wrap`}>
+                    <NavMenu />
+                </div>
             </Drawer>
         </Layout.Header>
     )
