@@ -57,7 +57,7 @@ export default function NavMenu() {
                 )}
             />
             <Button variant="solid" onClick={() => setUserTheme()}>
-                change theme
+                {theme ? 'dark' : 'white'} theme
             </Button>
             <Button type="primary" onClick={() =>  setDrawer(true)}>Add asset</Button >
             <Modal
