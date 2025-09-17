@@ -9,7 +9,7 @@ Currently, two official plugins are available:
 ## Library
 - [Ant Design 5.0](https://ant.design/)
 ## Page:  
-https://react-crypto-app-n6gf.onrender.com/
+https://react-crypto-app-1-p0w4.onrender.com
 ## Описание коммитов
 | Название | Описание                                                        |
 |----------|-----------------------------------------------------------------|
