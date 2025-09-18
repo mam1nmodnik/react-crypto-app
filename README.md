@@ -8,6 +8,10 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 ## Library
 - [Ant Design 5.0](https://ant.design/)
+- [TailwindCSS](https://tailwindcss.ru/docs/installation/using-postcss)
+- [react-dom](https://www.npmjs.com/package/react-dom)
+- [recharts](https://recharts.org/)
+- [JavaScript Cookie](https://www.npmjs.com/package/js-cookie)
 ## Page:  
 https://react-crypto-app-1-p0w4.onrender.com
 ## Описание коммитов
