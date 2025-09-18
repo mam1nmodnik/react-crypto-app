@@ -11,7 +11,7 @@ const CustomTooltip = ({ active, payload, label }) => {
             maximumFractionDigits: 2,
         });
         return (
-                <p style={{color: theme ? 'white' : 'black'}}>
+                <p style={{color:'black'}}>
                     {label}: {formatter.format(payload[0].value)}
                 </p>
         );

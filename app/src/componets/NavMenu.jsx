@@ -32,7 +32,7 @@ export default function NavMenu() {
 
     return (
         <>
-            <Select
+            {/* <Select
                 style={{
                     width: 250
                 }}
@@ -55,11 +55,14 @@ export default function NavMenu() {
                         {option.data.label}
                     </Space>
                 )}
-            />
-            <Button variant="solid" onClick={() => setUserTheme()}>
-                {theme ? 'dark' : 'white'} theme
-            </Button>
-            <Button type="primary" onClick={() =>  setDrawer(true)}>Add asset</Button >
+            /> */}
+            <div className='flex gap-2'>
+                <Button variant="solid" onClick={() => setUserTheme()}>
+                    {theme ? 'dark' : 'white'} theme
+                </Button>
+                <Button type="primary" onClick={() => setDrawer(true)}>Add asset</Button >
+            </div>
+
             <Modal
                 open={modal}
                 onCancel={() => setModal(false)}

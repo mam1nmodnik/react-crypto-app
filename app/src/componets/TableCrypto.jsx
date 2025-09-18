@@ -104,39 +104,37 @@ export default function TableCrypto() {
 
     const tableProps = {
         title: () =>
-            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2 }}>
-                <Select
-                    style={{
-                        width: 250
-                    }}
-                    onChange={upOrDownAssets}
-                    defaultValue="all assets"
-                    options={[
-                        {
-                            label: 'up assets',
-                            value: 'up',
-                        },
-                        {
-                            label: 'down assets',
-                            value: 'down',
-                        },
-                        {
-                            label: 'all assets',
-                            value: 'all',
-                        },
-                    ]}
+            <Select
+                className='w-[150px] lg:w-[250px]'
+                onChange={upOrDownAssets}
+                defaultValue="all assets"
+                options={[
+                    {
+                        label: 'up assets',
+                        value: 'up',
+                    },
+                    {
+                        label: 'down assets',
+                        value: 'down',
+                    },
+                    {
+                        label: 'all assets',
+                        value: 'all',
+                    },
+                ]}
 
-                />
-            </div>,
+            />
+        ,
         size: 'small'
     };
     return (
-        <Table style={{ width: '100%' }}
+            <Table 
             {...tableProps}
             columns={columns}
             dataSource={sortedTable == null ? asstetsToTable : sortedTable}
             pagination={false}
-            scroll={{ x: 'max-content' }}
+            scroll={{ x: 'max-content'}}
         />
+        
     )
 }
