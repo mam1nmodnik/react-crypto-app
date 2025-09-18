@@ -1,4 +1,4 @@
-import { Table, Tag } from 'antd';
+import { Table, Tag, Space, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { useCrypto } from '../context/crypto-context'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
@@ -8,6 +8,8 @@ export default function TableCrypto() {
     const { assets } = useCrypto()
 
     const [asstetsToTable, setAssetsToTable] = useState([])
+    const [sortedTable, setSortedTable] = useState(null)
+
     function dataTable() {
         const newAssets = assets.map(coin => {
             return {
@@ -16,6 +18,7 @@ export default function TableCrypto() {
                 amount: coin.amount,
                 totalAmount: coin.totalAmount,
                 totalProfit: coin.totalProfit,
+                grow: coin.grow ? 'up' : 'down'
             }
         })
         return newAssets
@@ -80,18 +83,55 @@ export default function TableCrypto() {
         },
     ]
 
+    const upOrDownAssets = (value) => {
+        if (value == 'all') {
+            return setSortedTable(asstetsToTable)
+        }
+        const newArray = asstetsToTable.filter(coin => {
+            if (coin.grow == value) {
+                return coin
+            }
+        })
+        return setSortedTable(newArray)
+    }
+
     useEffect(() => {
         setAssetsToTable(dataTable())
     }, [assets])
+
     const tableProps = {
-        title: () => 'My assets',
+        title: () =>
+            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2 }}>
+                <Select
+                    style={{
+                        width: 250
+                    }}
+                    onChange={upOrDownAssets}
+                    defaultValue="all assets"
+                    options={[
+                        {
+                            label: 'up assets',
+                            value: 'up',
+                        },
+                        {
+                            label: 'down assets',
+                            value: 'down',
+                        },
+                        {
+                            label: 'all assets',
+                            value: 'all',
+                        },
+                    ]}
+
+                />
+            </div>,
         size: 'small'
     };
     return (
         <Table style={{ width: '100%' }}
             {...tableProps}
             columns={columns}
-            dataSource={asstetsToTable}
+            dataSource={sortedTable == null ? asstetsToTable : sortedTable}
             pagination={false}
             scroll={{ x: 'max-content' }}
         />
