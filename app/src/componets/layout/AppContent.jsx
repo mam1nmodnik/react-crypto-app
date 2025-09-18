@@ -24,7 +24,7 @@ const contentStyle = {
 };
 
 export default function AppContent() {
-    const { assets, crypto , theme} = useCrypto()
+    const { assets, crypto, theme } = useCrypto()
     const cryptoPriceMap = crypto.reduce((acc, v) => {
         acc[v.id] = v.price
         return acc
@@ -47,14 +47,15 @@ export default function AppContent() {
             padding: '1rem',
             width: "100%"
         }}>
-            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', maxWidth: 1000 , width: "100%" }}>
-                <Typography.Title level={3} style={{ textAlign: 'left', color: theme ? 'white' : 'black'}}>
-                    Portfolio: {resSumAsset} $
-                </Typography.Title>
+            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', maxWidth: 1000, width: "100%" }}>
+
                 {assets.length == 0 ?
-                    <h1>Добавьте криптовалюту в портфолио</h1>
+                    <h1> Добавьте криптовалюту в портфолио и отслеживайте изменение цен в реальном времени </h1>
                     :
                     <>
+                        <Typography.Title level={3} style={{ textAlign: 'left', color: theme ? 'white' : 'black' }}>
+                            Portfolio: {resSumAsset} $
+                        </Typography.Title>
                         <ResponsiveContainer width="100%" height={400}>
                             <BarChart
                                 data={assets}
